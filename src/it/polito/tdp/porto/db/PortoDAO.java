@@ -72,9 +72,9 @@ public class PortoDAO {
 		}
 	}
 
-	public Map<Integer, Author> getAllAuthors(AuthorIdMap authorIdMap) {
-		Map<Integer, Author> authors= new HashMap<Integer,Author>();
-		final String sql = "SELECT * FROM author";
+	public List<Author> getAllAuthors(AuthorIdMap authorIdMap) {
+		List< Author> authors= new ArrayList<Author>();
+		final String sql = "SELECT * FROM author ORDER BY lastname ASC";
        
 		try {
 			Connection conn = DBConnect.getConnection();
@@ -85,7 +85,7 @@ public class PortoDAO {
 			while (rs.next()) {
 				Author a= new Author(rs.getInt("id"),rs.getString("lastname"),rs.getString("firstname"));
 				a = authorIdMap.put(a);
-				authors.put(a.getId(),a);		
+				authors.add(a);		
 			}
 
 			return authors;
@@ -99,7 +99,7 @@ public class PortoDAO {
 
 
 	public void setPapersDaAuthor(Author a, PaperIdMap paperIdMap) {
-		List<Paper>pubblicazioni= new ArrayList<Paper>();
+	
 		final String sql="SELECT p.eprintid,title,issn,publication,type,types "+
                          "FROM author a, creator c, paper p "+
                          "WHERE a.id=c.authorid AND  p.eprintid=c.eprintid AND a.id=?";
@@ -145,10 +145,7 @@ public class PortoDAO {
 				a=authorIdMap.put(a);
 				p.addAuthor(a);	
 			}
-			
-			
-			
-			
+
 			res.close();
 			conn.close();
 			
@@ -157,6 +154,32 @@ public class PortoDAO {
 			e.printStackTrace();
 			
 		}	
+	}
+
+	public List<Paper> getAllPapers(PaperIdMap paperIdMap) {
+		List<Paper> papers= new ArrayList<Paper>();
+		final String sql = "SELECT eprintid,title,issn,publication,type,types FROM paper";
+       
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				Paper p= new Paper(rs.getInt("eprintid"), rs.getString("title"), rs.getString("issn"), 
+						rs.getString("publication"), rs.getString("type"), rs.getString("types"));
+				
+				p = paperIdMap.put(p);
+				papers.add(p);
+			}
+
+			return papers;
+
+		} catch (SQLException e) {
+			 e.printStackTrace();
+			throw new RuntimeException("Errore Db");
+		}
 	}
 	
 	

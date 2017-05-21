@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import it.polito.tdp.porto.model.Author;
 import it.polito.tdp.porto.model.Model;
+import it.polito.tdp.porto.model.Paper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -22,7 +23,7 @@ public class PortoController {
     private ComboBox<Author> boxPrimo;
 
     @FXML
-    private ComboBox<?> boxSecondo;
+    private ComboBox<Author> boxSecondo;
 
     @FXML
     private TextArea txtResult;
@@ -32,8 +33,13 @@ public class PortoController {
     @FXML
     void handleCoautori(ActionEvent event) {
     	try{
+    		txtResult.setText("");
     		Author a= boxPrimo.getValue();
-    		txtResult.setText(model.getCoauthors(a).toString());
+    		for(Author aut :model.getCoauthors(a)){
+    		txtResult.appendText(aut+"\n");
+    		}
+    		boxSecondo.getItems().clear();
+    		boxSecondo.getItems().addAll(model.getNonCoauthors());
     		
     	}
     	catch (RuntimeException re) {
@@ -44,6 +50,17 @@ public class PortoController {
 
     @FXML
     void handleSequenza(ActionEvent event) {
+    	try{
+    		txtResult.setText("");
+    		Author a= boxPrimo.getValue();
+    		Author b= boxSecondo.getValue();
+    		for(Paper p : model.getSequenza(a,b)){
+    		txtResult.appendText(p+"\n");
+    	}
+    	}
+    	catch (RuntimeException re) {
+    		txtResult.appendText("FORMATO INPUT NON VALIDO ");
+    	}
 
     }
 
@@ -57,6 +74,6 @@ public class PortoController {
 
 	public void setModel(Model model) {
 	this.model=model;
-	boxPrimo.getItems().addAll(model.getAuthors().values());	
+	boxPrimo.getItems().addAll(model.getAuthors());	
 	}
 }

@@ -8,11 +8,11 @@ public class AuthorIdMap {
 	private Map <Integer,Author> map;
 	
 	public AuthorIdMap() {
-		map = new HashMap<>() ;
+		map = new HashMap<Integer,Author>() ;
 	}
 	
-	public Author get(Integer ccode) {
-		return map.get(ccode) ;
+	public Author get(Integer id) {
+		return map.get(id) ;
 	}
 	
 	public Author put(Author author) {

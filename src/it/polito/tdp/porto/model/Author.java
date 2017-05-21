@@ -1,5 +1,6 @@
 package it.polito.tdp.porto.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Author {
@@ -14,6 +15,7 @@ public class Author {
 		this.id = id;
 		this.lastname = lastname;
 		this.firstname = firstname;
+		listaPubblicazioni= new ArrayList<Paper>();
 	}
 
 	public int getId() {

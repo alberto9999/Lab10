@@ -7,6 +7,7 @@ public class TestPortoDAO {
 		System.out.println(pd.getAutore(85));
 		System.out.println(pd.getArticolo(2293546));
 		System.out.println(pd.getArticolo(1941144));
+		
 
 	}
 

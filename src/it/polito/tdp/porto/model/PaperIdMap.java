@@ -8,11 +8,11 @@ public class PaperIdMap {
 private Map <Integer,Paper> map;
 	
 	public PaperIdMap() {
-		map = new HashMap<>() ;
+		map = new HashMap<Integer,Paper>() ;
 	}
 	
-	public Paper get(Integer ccode) {
-		return map.get(ccode) ;
+	public Paper get(Integer eprintid) {
+		return map.get(eprintid) ;
 	}
 	public Paper put(Paper paper) {
 		Paper old = map.get(paper.getEprintid()) ; 
