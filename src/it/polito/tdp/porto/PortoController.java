@@ -2,6 +2,9 @@ package it.polito.tdp.porto;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.porto.model.Author;
+import it.polito.tdp.porto.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -16,7 +19,7 @@ public class PortoController {
     private URL location;
 
     @FXML
-    private ComboBox<?> boxPrimo;
+    private ComboBox<Author> boxPrimo;
 
     @FXML
     private ComboBox<?> boxSecondo;
@@ -24,8 +27,18 @@ public class PortoController {
     @FXML
     private TextArea txtResult;
 
+	private Model model;
+
     @FXML
     void handleCoautori(ActionEvent event) {
+    	try{
+    		Author a= boxPrimo.getValue();
+    		txtResult.setText(model.getCoauthors(a).toString());
+    		
+    	}
+    	catch (RuntimeException re) {
+    		txtResult.appendText("FORMATO INPUT NON VALIDO ");
+    	}
 
     }
 
@@ -41,4 +54,9 @@ public class PortoController {
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Porto.fxml'.";
 
     }
+
+	public void setModel(Model model) {
+	this.model=model;
+	boxPrimo.getItems().addAll(model.getAuthors().values());	
+	}
 }
