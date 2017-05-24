@@ -74,9 +74,6 @@ public class Model {
 		for(Author a :getAuthors()){
 			pDAO.setPapersDaAuthor(a,paperIdMap);
 		}	
-		
-		
-		
 		  for(Paper p: getPapers()){
 		    pDAO.setAuthorsDaPaper(p,authorIdMap);
 		       }
@@ -109,7 +106,7 @@ public List<Author> getNonCoauthors() {
 	}
 
 	public List<Paper> getSequenza(Author a, Author b) {
-		List<Paper>sequenzaPubblicazioni=new ArrayList<Paper>();;
+		List<Paper>sequenzaPubblicazioni=new ArrayList<Paper>();
 		List <DefaultEdge> percorsoArchi=DijkstraShortestPath.findPathBetween(grafoAutori, a, b);
 		for(DefaultEdge de : percorsoArchi){
 			for(Paper p1: grafoAutori.getEdgeSource(de).getListaPapers()){
